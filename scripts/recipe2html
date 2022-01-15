@@ -26,7 +26,7 @@ n_markers == 1 {
     n_ingredient += 1
 }
 
-n_markers == 1 {
+n_markers == 2 {
     instruction_buffer[n_instruction + 1] = $0
     n_instruction += 1
 }
