@@ -1,0 +1,42 @@
+#!/bin/bash
+
+CONTENT_DIR="content"
+SCRIPTS_DIR="scripts"
+
+if [ ! -d "$CONTENT_DIR" ]; then
+    echo "Content dir: '"$CONTENT_DIR"' not found"
+    exit 1
+fi
+
+if [ ! -d "$SCRIPTS_DIR" ]; then
+    echo "Content dir: '"$CONTENT_DIR"' not found"
+    exit 1
+fi
+
+# Create main pages
+for file in $(find "$CONTENT_DIR/main" -type f); do
+    awk -vcontent="$file" '
+    !/ ?<!-- INCLUDE -->/
+    / ?<!-- INCLUDE -->/{
+        match($0, /^ */)
+        indent=substr($0,1,RLENGTH)
+        while ((getline line < content) > 0) {
+            print indent line
+        }
+    }
+' templates/site-template.html > $(basename $file)
+done
+
+# Create recipe pages
+for file in $(find "$CONTENT_DIR/recipes" -type f); do
+    awk -vcontent=<("$SCRIPTS_DIR/recipe2html" "$file") '
+    !/ ?<!-- INCLUDE -->/
+    / ?<!-- INCLUDE -->/{
+        match($0, /^ */)
+        indent=substr($0,1,RLENGTH)
+        while ((getline line < content) > 0) {
+            print indent line
+        }
+    }
+' templates/site-template.html | sed -e's|href="|href="../|' > recipes/$(basename $file .recipe).html
+done

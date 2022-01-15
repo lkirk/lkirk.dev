@@ -1,0 +1,57 @@
+#!/bin/awk -f
+BEGIN{
+    n_markers = 0
+
+    n_desc = 0
+    n_incredient = 0
+    n_instruction = 0
+}
+
+/^ *$/ {
+    next
+}
+
+/^--/{
+    n_markers += 1
+    next
+}
+
+n_markers == 0 {
+    desc_buffer[n_desc + 1] = $0
+    n_desc += 1
+}
+
+n_markers == 1 {
+    ingredient_buffer[n_ingredient + 1] = $0
+    n_ingredient += 1
+}
+
+n_markers == 1 {
+    instruction_buffer[n_instruction + 1] = $0
+    n_instruction += 1
+}
+
+END{
+    if(n_markers != 2){
+	print("invalid recipe file, not enough markers: "FILENAME)
+	exit(1)
+    }
+
+    print("<p>")
+    for(i = 1; i <= n_desc; i++) {
+	print("  "desc_buffer[i])
+    }
+    print("</p>")
+
+    print("<ul>")
+    for(i = 1; i <= n_ingredient; i++) {
+	print("  <li>"ingredient_buffer[i]"</li>")
+    }
+    print("</ul>")
+
+    print("<ol>")
+    for(i = 1; i <= n_instruction; i++) {
+	print("  <li type=\"1\">"instruction_buffer[i]"</li>")
+    }
+    print("</ol>")
+}

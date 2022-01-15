@@ -1,0 +1,47 @@
+html {
+    background-color: #dcdcdd
+}
+
+.nav-button:hover {
+    color: #1985a1
+}
+
+.nav-button {
+          /* top  right bottom left */
+    color: #4c5c68;
+    padding: .1em .4em  .1em   .4em;
+    text-decoration: none;
+    float: right
+}
+
+.home-button {
+          /* top  right bottom left */
+    color: #121212;
+    padding: .1em .4em  .1em   .4em;
+    text-decoration: none;
+}
+
+footer {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.header {
+    background-color: #c5c3c6;
+    font-size: 1.3em;
+          /* top  right bottom left */
+    padding: .2em .5em  .2em   .5em;
+    width: 75%;
+    margin: auto;
+}
+
+div.main {
+    text-align: left;
+    width: 75%;
+    margin: auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
