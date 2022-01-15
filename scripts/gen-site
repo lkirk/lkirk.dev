@@ -15,28 +15,17 @@ fi
 
 # Create main pages
 for file in $(find "$CONTENT_DIR/main" -type f); do
-    awk -vcontent="$file" '
-    !/ ?<!-- INCLUDE -->/
-    / ?<!-- INCLUDE -->/{
-        match($0, /^ */)
-        indent=substr($0,1,RLENGTH)
-        while ((getline line < content) > 0) {
-            print indent line
-        }
-    }
-' templates/site-template.html > $(basename $file)
+    "$SCRIPTS_DIR/templatecontent" \
+        -vcontent="$file" \
+        templates/site-template.html \
+    > $(basename $file)
 done
 
 # Create recipe pages
 for file in $(find "$CONTENT_DIR/recipes" -type f); do
-    awk -vcontent=<("$SCRIPTS_DIR/recipe2html" "$file") '
-    !/ ?<!-- INCLUDE -->/
-    / ?<!-- INCLUDE -->/{
-        match($0, /^ */)
-        indent=substr($0,1,RLENGTH)
-        while ((getline line < content) > 0) {
-            print indent line
-        }
-    }
-' templates/site-template.html | sed -e's|href="|href="../|' > recipes/$(basename $file .recipe).html
+    "$SCRIPTS_DIR/templatecontent" \
+        -vcontent=<("$SCRIPTS_DIR/recipe2html" "$file") \
+        templates/site-template.html \
+    | sed -e's|href="|href="../|' \
+    > recipes/$(basename $file .recipe).html
 done

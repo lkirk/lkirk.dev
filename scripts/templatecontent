@@ -1,0 +1,19 @@
+#!/bin/awk -f
+BEGIN {
+    if(!content) {
+	print("Error: content variable not specified")
+	print("Try running like: ./templatecontent -vcontent='path/to/content'")
+        exit(1)
+    }
+}
+
+!/ ?<!-- INCLUDE -->/
+/ ?<!-- INCLUDE -->/{
+    # Match the indent of the include comment
+    match($0, /^ */)
+    indent=substr($0,1,RLENGTH)
+    while ((getline line < content) > 0) {
+        print indent line
+    }
+}
+
