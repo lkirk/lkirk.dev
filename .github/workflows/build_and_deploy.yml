@@ -1,0 +1,14 @@
+name: Build and deploy lkirk.dev
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: build site
+        run: ./scripts/gen-site
+      - name: check diff
+        run: git diff
