@@ -37,11 +37,9 @@ END{
 	exit(1)
     }
 
-    print("<p>")
     for(i = 1; i <= n_desc; i++) {
-	print("  "desc_buffer[i])
+	print(desc_buffer[i])
     }
-    print("</p>")
 
     print("<ul>")
     for(i = 1; i <= n_ingredient; i++) {
