@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 CONTENT_DIR="content"
 SCRIPTS_DIR="scripts"
 UPDATE_STAMP="$(date)"
