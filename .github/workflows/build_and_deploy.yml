@@ -9,7 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: build site
+      - name: Build Site
         run: ./scripts/gen-site
-      - name: check diff
-        run: git diff
+      - name: Commit Site Build
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated site build
